@@ -10,17 +10,21 @@ class EpisodesPage extends StatefulWidget {
 
 class _EpisodesPageState extends State<EpisodesPage> {
   var episodiosList;
+  bool _loader;
 
   void getEpisodiosApi() async {
     InfoApi episodiosApi = InfoApi();
     await episodiosApi.getEpisodios();
     episodiosList = episodiosApi.episodios;
-    setState(() {});
+    setState(() {
+      _loader = false;
+    });
   }
 
   @override
   void initState() {
     super.initState();
+    _loader = true;
     getEpisodiosApi();
   }
 
@@ -30,7 +34,7 @@ class _EpisodesPageState extends State<EpisodesPage> {
       appBar: AppBar(
         title: Text('Episodios')
       ),
-      body: (episodiosList.length == null) 
+      body: (_loader == true)
       ? Center(child: CircularProgressIndicator(backgroundColor: Colors.blue,))
       : ListView.separated(
         separatorBuilder: (_, int index) => Divider(height: 1, color: Colors.green), 

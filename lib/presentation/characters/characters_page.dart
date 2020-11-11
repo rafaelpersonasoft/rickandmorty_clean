@@ -10,17 +10,21 @@ class CharacterPage extends StatefulWidget {
 
 class _CharacterPageState extends State<CharacterPage> {
   var personajesList;
+  bool _loader;
 
   void getPersonajesApi() async {
     InfoApi personajesApi = InfoApi();
     await personajesApi.getPersonajes();
     personajesList = personajesApi.personajes;
-    setState(() {});
+    setState(() {
+      _loader = false;
+    });
   }
 
   @override
   void initState() {
     super.initState();
+    _loader = true;
     getPersonajesApi();
   }
 
@@ -30,7 +34,7 @@ class _CharacterPageState extends State<CharacterPage> {
       appBar: AppBar(
         title: Text('Personajes')
       ),
-      body: (personajesList.length == null) 
+      body: (_loader == true) 
       ? Center(child: CircularProgressIndicator(backgroundColor: Colors.blue,))
       : ListView.separated(
         separatorBuilder: (_, int index) => Divider(height: 1, color: Colors.green), 
