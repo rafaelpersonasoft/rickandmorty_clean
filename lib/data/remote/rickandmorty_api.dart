@@ -8,11 +8,14 @@ import 'package:http/http.dart' as http;
 
 class InfoApi {
   List<Character> personajes = [];
+  Map<String, String> infoPersonajes = {};
   List<Episode> episodios = [];
+  Map<String, String> infoEpisodios = {};
   List<Location> locaciones = [];
+  Map<String, String> infoLocaciones = {};
 
-  Future<void> getPersonajes() async {
-    String url = '$apiKeyCharacters';
+  Future<void> getPersonajes(String ruta) async {
+    String url = ruta;
 
     var response = await http.get(url);
     var jsonData = jsonDecode(response.body);
@@ -29,10 +32,16 @@ class InfoApi {
         personajes.add(info);
       }
     });
+
+    if(jsonData["info"] != null) {
+      var base = jsonData["info"];
+      infoPersonajes['next'] = base['next'];
+      infoPersonajes['prev'] = base['prev'];
+    }
   }
 
-  Future<void> getEpisodios() async {
-    String url = '$apiKeyEpisodes';
+  Future<void> getEpisodios(String ruta) async {
+    String url = ruta;
 
     var response = await http.get(url);
     var jsonData = jsonDecode(response.body);
@@ -49,10 +58,16 @@ class InfoApi {
         episodios.add(info);
       }
     });
+
+    if(jsonData["info"] != null) {
+      var base = jsonData["info"];
+      infoEpisodios['next'] = base['next'];
+      infoEpisodios['prev'] = base['prev'];
+    }
   }
 
-  Future<void> getLocaciones() async {
-    String url = '$apiKeyLocations';
+  Future<void> getLocaciones(String ruta) async {
+    String url = ruta;
 
     var response = await http.get(url);
     var jsonData = jsonDecode(response.body);
@@ -67,5 +82,11 @@ class InfoApi {
         locaciones.add(info);
       }
     });
+
+    if(jsonData["info"] != null) {
+      var base = jsonData["info"];
+      infoLocaciones['next'] = base['next'];
+      infoLocaciones['prev'] = base['prev'];
+    }
   }
 }

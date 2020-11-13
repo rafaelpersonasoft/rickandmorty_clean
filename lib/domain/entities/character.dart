@@ -9,3 +9,13 @@ class Character {
     this.species
   });
 }
+
+class CharactersPages {
+  String prev;
+  String next;
+
+  CharactersPages ({
+    this.next,
+    this.prev
+  });
+}
